@@ -1,6 +1,6 @@
 <img width="762" alt="image" src="https://user-images.githubusercontent.com/38173749/226066384-a510ca53-47f3-471c-95cd-999f48627737.png">
 
-This example NodeJS application scrapes a website for your team's upcoming sporting event using Cheerio and syncs the event times with your Google Calendar. 
+This example NodeJS application scrapes a website for your team's upcoming sporting event using Cheerio and syncs the event times with your Google Calendar.
 
 The program runs on a regular basis using cron scheduling inside a Docker container, which ensures that your calendar stays up-to-date with the latest information about the upcoming events.
 
@@ -10,15 +10,15 @@ The program runs on a regular basis using cron scheduling inside a Docker contai
 
 To use this script, you will need:
 
--   Docker installed on your machine
--   Google Calendar API credentials: [Service account](https://github.com/googleapis/google-api-nodejs-client#service-account-credentials) 
+- Docker installed on your machine
+- Google Calendar API credentials: [Service account](https://github.com/googleapis/google-api-nodejs-client#service-account-credentials)
 
 ### Installing
 
 1.  Use this template repository and clone it to your local machine.
-2.  Run `npm install`
+2.  Run `npm install` or `yarn`
 3.  Modify the `webScraper.js` file to fetch the information from your team's website. Update the URL and HTML parsing.
-4.  Follow the instructions [here](https://github.com/googleapis/google-api-nodejs-client#service-account-credentials)  to set up your Google Calendar API credentials and download the `credentials.json` file.
+4.  Follow the instructions [here](https://github.com/googleapis/google-api-nodejs-client#service-account-credentials) to set up your Google Calendar API credentials and download the `credentials.json` file.
 5.  Rename the `credentials.json` file to `service_account_key.json` and place it in the root directory of the project.
 6.  Modify the `calendar.js` file to format the event with your custom scraped data.
 7.  To run the local repo you can use `npm start`

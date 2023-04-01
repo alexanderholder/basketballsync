@@ -82,21 +82,20 @@ const generateEventData = (gameDetails) => {
     gameTypes[Math.floor(Math.random() * gameTypes.length)];
 
   const descriptions = [
-    "What are the odds Dos will get tilted this one?",
-    "Timmys had too many wheat bix this morning",
-    "I heard Timmys running in from Chermside this one",
-    "Timmys got the fists back out",
-    "I bet Mikaela and Kate won't stop chatting",
-    "How did we ever get into div 2?",
-    "Harry will surely make it this time",
+    "What are the odds Jack will get tilted this one?",
+    "Alex had too many wheat bix this morning",
+    "I heard Travis is running in from St.George for this one",
+    "Alex got the fists back out",
+    "I bet Jack and Travis won't stop chatting",
+    "How did we ever get into div 1?",
+    "Jack will surely make it this time",
     "What are the odds the ref watches this one?",
-    "'Quick reset' - Dos",
   ];
   const randomDescription =
     descriptions[Math.floor(Math.random() * descriptions.length)];
 
   return {
-    summary: `${randomGameType} Volleyball Game -  ${gameDetails.court}`,
+    summary: `${randomGameType} Basketball Game -  ${gameDetails.court}`,
     description: randomDescription,
     start: {
       dateTime: gameDetails.dateTime.toISOString(),
@@ -106,6 +105,11 @@ const generateEventData = (gameDetails) => {
       dateTime: addMinutes(gameDetails.dateTime, 45).toISOString(),
       timeZoneId: "Australia/Brisbane",
     },
+    attendees: [
+      {
+        email: "alex@hindsiteind.com",
+      },
+    ],
   };
 };
 

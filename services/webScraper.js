@@ -21,8 +21,9 @@ import * as cheerio from "cheerio";
 </tr> */
 }
 
-const teamName = "Send Tuesday";
-const url = "https://www.volleyball.com";
+const teamName = "T-BONES";
+const url =
+  "https://www.brisbanecityindoorsports.com.au/fixi_feed_coorparoo.php?sportFixId=b27b0677-a318-487d-8300-cfb102797f9f&sp=2965&div=6994&sea=6110";
 
 const fetchGameDetails = async () => {
   // Get the HTML from the URL
@@ -37,48 +38,23 @@ const extractGameDetails = (teamName, body) => {
   const $ = cheerio.load(body);
 
   // Find the cell with our team name
-  const teamCell = $(`td:icontains(${teamName})`);
+  const teamCell = $(`span:icontains(${teamName})`);
   if (!teamCell?.length) throw new Error(`Could not find ${teamName}s cell`);
 
   // The first column is the court number
-  const court = teamCell.siblings().eq(0).text();
+  const court = teamCell.parent().parent().prevAll().find("strong").text();
   if (!court.trim()) throw new Error(`Could not find court number`);
 
   // Find the first time above the team cell
-  const timeText = teamCell
-    .parent()
-    .prevAll()
-    .find("td:first-child:contains(pm)")
-    .eq(0)
-    .text();
-  if (!timeText.trim()) throw new Error(`Could not find game time`);
-
-  // Get the date from the table header
-  const dateText = $(`thead`).find(".column-4").text();
-  if (!dateText.trim()) throw new Error(`Could not find game date`);
+  const fullTimeText = teamCell.parent().parent().prevAll().find("span").text();
+  if (!fullTimeText.trim()) throw new Error(`Could not find game time`);
 
   // Convert the time and date into a Date object
-  const dateTime = convertToDate(timeText, dateText);
-
-  return { court, dateTime };
-};
-
-// timeText example: "6:30pm"
-// dateText example: "13th September"
-const convertToDate = (timeText, dateText) => {
-  const year = new Date().getFullYear();
-  const month = dateText.split(" ")[1];
-  const day = dateText.split(" ")[0].replace(/\D/g, "");
-  const hours = +timeText.split(":")[0] + 12;
-  const minutes = timeText.split(":")[1].replace(/\D/g, "");
-
-  // Convert the date and time into a Date object
-  const dateTimeString = `${day} ${month} ${year} ${hours}:${minutes}`;
-  const dateTime = new Date(dateTimeString);
+  const dateTime = new Date(fullTimeText);
   if (isNaN(dateTime.getTime()))
     throw new Error(`Could not parse date string: ${dateTimeString}`);
 
-  return dateTime;
+  return { court, dateTime };
 };
 
 export default fetchGameDetails;
