@@ -23,7 +23,7 @@ import * as cheerio from "cheerio";
 
 const teamName = "T-BONES";
 const url =
-  "https://www.brisbanecityindoorsports.com.au/fixi_feed_coorparoo.php?sportFixId=b27b0677-a318-487d-8300-cfb102797f9f&sp=2965&div=6994&sea=6110";
+  "https://www.brisbanecityindoorsports.com.au/fixi_feed_coorparoo.php?sportFixId=b27b0677-a318-487d-8300-cfb102797f9f&sp=2965&div=7568&sea=6110";
 
 const fetchGameDetails = async () => {
   // Get the HTML from the URL
@@ -38,15 +38,20 @@ const extractGameDetails = (teamName, body) => {
   const $ = cheerio.load(body);
 
   // Find the cell with our team name
-  const teamCell = $(`span:icontains(${teamName})`);
+  const teamCell = $(`td:icontains(${teamName})`);
   if (!teamCell?.length) throw new Error(`Could not find ${teamName}s cell`);
 
-  // The first column is the court number
-  const court = teamCell.parent().parent().prevAll().find("strong").text();
+  const gameDetails = teamCell
+    .parent()
+    .prevAll()
+    .find("td:first-child:contains(PM)")
+    .eq(0);
+
+  const court = gameDetails.find("strong").text();
   if (!court.trim()) throw new Error(`Could not find court number`);
 
   // Find the first time above the team cell
-  const fullTimeText = teamCell.parent().parent().prevAll().find("span").text();
+  const fullTimeText = gameDetails.find("span").text();
   if (!fullTimeText.trim()) throw new Error(`Could not find game time`);
 
   // Convert the time and date into a Date object

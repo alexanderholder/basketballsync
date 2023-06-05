@@ -105,11 +105,6 @@ const generateEventData = (gameDetails) => {
       dateTime: addMinutes(gameDetails.dateTime, 45).toISOString(),
       timeZoneId: "Australia/Brisbane",
     },
-    attendees: [
-      {
-        email: "alex@hindsiteind.com",
-      },
-    ],
   };
 };
 
