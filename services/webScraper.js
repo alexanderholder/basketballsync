@@ -41,11 +41,7 @@ const extractGameDetails = (teamName, body) => {
   const teamCell = $(`td:icontains(${teamName})`);
   if (!teamCell?.length) throw new Error(`Could not find ${teamName}s cell`);
 
-  const gameDetails = teamCell
-    .parent()
-    .prevAll()
-    .find("td:first-child:contains(PM)")
-    .eq(0);
+  const gameDetails = teamCell.prevAll().eq(0);
 
   const court = gameDetails.find("strong").text();
   if (!court.trim()) throw new Error(`Could not find court number`);
@@ -57,7 +53,7 @@ const extractGameDetails = (teamName, body) => {
   // Convert the time and date into a Date object
   const dateTime = new Date(fullTimeText);
   if (isNaN(dateTime.getTime()))
-    throw new Error(`Could not parse date string: ${dateTimeString}`);
+    throw new Error(`Could not parse date string: ${fullTimeText}`);
 
   return { court, dateTime };
 };
